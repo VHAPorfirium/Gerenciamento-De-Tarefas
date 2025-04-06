@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.com.vhaporfiro.gerenciamentodetarefas.controller.MainController"
+      spacing="10"
+      alignment="CENTER">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label text="Gerenciamento de Tarefas"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="txtTarefa"
+                   promptText="Digite a tarefa..."
+                   prefWidth="300" />
+        <ComboBox fx:id="cmbStatus"
+                  prefWidth="150" />
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="txtDescricao"
+                   promptText="Digite a descrição..."
+                   prefWidth="300" />
+        <DatePicker fx:id="dpDataEntrega"
+                    prefWidth="150" />
+    </HBox>
+
+    <Button text="Adicionar"
+            onAction="#handleAdicionar"
+            prefWidth="150" />
+
+    <ListView fx:id="listTarefas"
+              prefWidth="500"
+              prefHeight="300" />
+
+</VBox>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="br.com.vhaporfiro.gerenciamentodetarefas.controller.EditTaskController"
+      spacing="10"
+      alignment="CENTER">
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Label text="Editar Tarefa"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <TextField fx:id="txtEditarTarefa"
+               promptText="Editar tarefa"
+               prefWidth="300" />
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="txtDescricao"
+                   promptText="Editar descrição"
+                   prefWidth="300" />
+        <DatePicker fx:id="dpDataEntrega"
+                    prefWidth="150" />
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Salvar"
+                onAction="#handleSalvar"
+                prefWidth="100" />
+        <Button text="Excluir"
+                onAction="#handleExcluir"
+                prefWidth="100" />
+    </HBox>
+
+</VBox>

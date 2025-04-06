@@ -11,11 +11,17 @@ import java.util.List;
 public class TarefaDAO {
 
     public boolean inserir(Tarefa tarefa) {
-        String sql = "INSERT INTO tarefas (titulo, status) VALUES (?, ?)";
+        String sql = "INSERT INTO tarefas (titulo, descricao, data_entrega, status) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, tarefa.getTitulo());
-            ps.setString(2, tarefa.getStatus());
+            ps.setString(2, tarefa.getDescricao());
+            if(tarefa.getDataEntrega() != null) {
+                ps.setDate(3, Date.valueOf(tarefa.getDataEntrega()));
+            } else {
+                ps.setDate(3, null);
+            }
+            ps.setString(4, tarefa.getStatus());
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
@@ -33,7 +39,7 @@ public class TarefaDAO {
 
     public List<Tarefa> listar() {
         List<Tarefa> tarefas = new ArrayList<>();
-        String sql = "SELECT id, titulo, status FROM tarefas ORDER BY id";
+        String sql = "SELECT id, titulo, descricao, data_entrega, status FROM tarefas ORDER BY id";
         try (Connection conn = ConnectionFactory.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -41,6 +47,11 @@ public class TarefaDAO {
                 Tarefa tarefa = new Tarefa();
                 tarefa.setId(rs.getInt("id"));
                 tarefa.setTitulo(rs.getString("titulo"));
+                tarefa.setDescricao(rs.getString("descricao"));
+                Date date = rs.getDate("data_entrega");
+                if(date != null) {
+                    tarefa.setDataEntrega(date.toLocalDate());
+                }
                 tarefa.setStatus(rs.getString("status"));
                 tarefas.add(tarefa);
             }
@@ -52,12 +63,18 @@ public class TarefaDAO {
     }
 
     public boolean atualizar(Tarefa tarefa) {
-        String sql = "UPDATE tarefas SET titulo = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE tarefas SET titulo = ?, descricao = ?, data_entrega = ?, status = ? WHERE id = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, tarefa.getTitulo());
-            ps.setString(2, tarefa.getStatus());
-            ps.setInt(3, tarefa.getId());
+            ps.setString(2, tarefa.getDescricao());
+            if(tarefa.getDataEntrega() != null) {
+                ps.setDate(3, Date.valueOf(tarefa.getDataEntrega()));
+            } else {
+                ps.setDate(3, null);
+            }
+            ps.setString(4, tarefa.getStatus());
+            ps.setInt(5, tarefa.getId());
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -81,4 +98,3 @@ public class TarefaDAO {
         return false;
     }
 }
-
