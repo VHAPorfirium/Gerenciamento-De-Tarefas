@@ -1,0 +1,7 @@
+CREATE TABLE tarefas (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    data_entrega DATE,
+    status VARCHAR(20) DEFAULT 'A Fazer'
+);

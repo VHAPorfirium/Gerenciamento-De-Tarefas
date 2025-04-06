@@ -5,6 +5,7 @@ module br.com.vhaporfiro.gerenciamentodetarefas {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
     opens br.com.vhaporfiro.gerenciamentodetarefas to javafx.fxml;
     exports br.com.vhaporfiro.gerenciamentodetarefas;
