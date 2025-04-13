@@ -30,6 +30,12 @@
     </HBox>
 
     <HBox spacing="10" alignment="CENTER">
+        <Label text="Status:"/>
+        <ComboBox fx:id="cmbStatus"
+                  prefWidth="150" />
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
         <Button text="Salvar"
                 onAction="#handleSalvar"
                 prefWidth="100" />

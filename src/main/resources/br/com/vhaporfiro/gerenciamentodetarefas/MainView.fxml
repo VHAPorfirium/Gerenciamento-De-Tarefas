@@ -17,6 +17,9 @@
     <Label text="Gerenciamento de Tarefas"
            style="-fx-font-size: 24px; -fx-font-weight: bold;" />
 
+    <Label fx:id="lblDataHora" text="Data/Hora" />
+
+
     <HBox spacing="10" alignment="CENTER">
         <TextField fx:id="txtTarefa"
                    promptText="Digite a tarefa..."
@@ -40,5 +43,6 @@
     <ListView fx:id="listTarefas"
               prefWidth="500"
               prefHeight="300" />
+
 
 </VBox>

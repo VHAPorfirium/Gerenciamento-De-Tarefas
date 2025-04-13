@@ -1,5 +1,6 @@
 package br.com.vhaporfiro.gerenciamentodetarefas.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import br.com.vhaporfiro.gerenciamentodetarefas.dao.TarefaDAO;
 import br.com.vhaporfiro.gerenciamentodetarefas.model.Tarefa;
 import br.com.vhaporfiro.gerenciamentodetarefas.util.AlertUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MainController {
@@ -32,6 +35,10 @@ public class MainController {
 
     @FXML
     private ListView<Tarefa> listTarefas;
+
+    // Nova Label para exibir data/hora atual
+    @FXML
+    private Label lblDataHora;
 
     private TarefaDAO tarefaDAO;
     private ObservableList<Tarefa> tarefasObservable;
@@ -54,6 +61,8 @@ public class MainController {
                 }
             }
         });
+        // Inicia thread para atualizar data e hora em tempo real
+        iniciarAtualizacaoDataHora();
     }
 
     //Adicionar uma nova tarefa à lista.
@@ -113,5 +122,24 @@ public class MainController {
             e.printStackTrace();
             AlertUtil.showError("Erro ao abrir a janela de edição: " + e.getMessage());
         }
+    }
+
+    // Metodo para iniciar a atualização da data e hora atual em tempo real
+    private void iniciarAtualizacaoDataHora() {
+        Thread thread = new Thread(() -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    lblDataHora.setText(LocalDateTime.now().format(formatter));
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 }

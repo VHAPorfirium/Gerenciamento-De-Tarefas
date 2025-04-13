@@ -1,8 +1,10 @@
 package br.com.vhaporfiro.gerenciamentodetarefas.controller;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import br.com.vhaporfiro.gerenciamentodetarefas.dao.TarefaDAO;
 import br.com.vhaporfiro.gerenciamentodetarefas.model.Tarefa;
@@ -19,6 +21,9 @@ public class EditTaskController {
     @FXML
     private DatePicker dpDataEntrega;
 
+    @FXML
+    private ComboBox<String> cmbStatus;
+
     private Tarefa tarefa;
     private TarefaDAO tarefaDAO = new TarefaDAO();
     private MainController mainController;
@@ -29,11 +34,18 @@ public class EditTaskController {
         txtEditarTarefa.setText(tarefa.getTitulo());
         txtDescricao.setText(tarefa.getDescricao());
         dpDataEntrega.setValue(tarefa.getDataEntrega());
+        cmbStatus.setValue(tarefa.getStatus());
     }
 
     //Permite que o controller da janela de edição conheça o controller principal.
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    @FXML
+    public void initialize() {
+        // Preenche o ComboBox com os status disponíveis.
+        cmbStatus.setItems(FXCollections.observableArrayList("A Fazer", "Em Andamento", "Concluído"));
     }
 
     //Atualizar a tarefa com o novo título fornecido pelo usuario.
@@ -53,6 +65,8 @@ public class EditTaskController {
         tarefa.setTitulo(novoTitulo);
         tarefa.setDescricao(txtDescricao.getText().trim());
         tarefa.setDataEntrega(dpDataEntrega.getValue());
+        tarefa.setStatus(cmbStatus.getValue());
+
         boolean success = tarefaDAO.atualizar(tarefa);
         if (success) {
             AlertUtil.showInfo("Tarefa atualizada com sucesso!");
